@@ -1,0 +1,28 @@
+:root {
+  --bg-color: #242424;
+  --header-bg-color: #1f1f1f;
+  --header-border-color: #333333;
+  --text-color: #ffffffde;
+  --primary-action: #74b0ff;
+
+  /* Modal */
+  --modal-bg-color: #2a2a2a;
+  --modal-field-bg-select: hsl(0, 0%, 12%);
+  --modal-field-bg-alt: #333;
+  --modal-text-color: #ffffff;
+  --modal-border-color: #444;
+  --modal-shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #242424;
+    --header-bg-color: #1f1f1f;
+    --header-border-color: #333333;
+    --text-color: #ffffffde;
+    --secondary-text-color: #b0b0b0;
+
+    --primary-action: #74b0ff;
+    --delete-action: #ff6b6b;
+  }
+}
