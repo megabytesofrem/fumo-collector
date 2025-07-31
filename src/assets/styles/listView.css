@@ -172,3 +172,17 @@
   border-color: var(--delete-action);
   background-color: var(--bg-color);
 }
+
+/* Fade out animation */
+.list-item.animate-deletion {
+  animation: fade-out 0.2s forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

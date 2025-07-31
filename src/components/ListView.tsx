@@ -16,7 +16,30 @@ interface ListViewProps {
 const ListView: React.FC<ListViewProps> = ({ items, setItems, showError }) => {
 
   const handleDelete = (id: string) => {
-    // TODO: Handle deletion of an item
+    // Animate deletion
+    const listItem = document.querySelector(`.list-item[data-id="${id}"]`);
+
+    if (listItem) {
+      listItem.classList.add("animate-deletion");
+      
+      // Wait for animation to complete before updating state
+      setTimeout(() => {
+        try {
+          setItems((prevItems) => prevItems.filter(item => item.id !== id));
+        } catch (error) {
+          console.error("Error deleting item:", error);
+          showError("Failed to delete item. Please try again.");
+        }
+      }, 200); // Match the duration of the slide-out animation
+    } else {
+      // If element not found, just update state immediately
+      try {
+        setItems((prevItems) => prevItems.filter(item => item.id !== id));
+      } catch (error) {
+        console.error("Error deleting item:", error);
+        showError("Failed to delete item. Please try again.");
+      }
+    }
   };
 
   // Handle the case where there are no items to display

@@ -67,7 +67,7 @@ function App() {
               id: `${data.name.toLowerCase().replace(/\s+/g, "_")}_${data.version}`,
               name: data.name,
               version: data.version,
-              imageUrl: "https://fumo.website/img/placeholder.jpg", // Placeholder image
+              imageUrl: data.imageUrl ?? "https://fumo.website/img/001.jpg", // Placeholder image
             };
             setItems((prevItems) => [...prevItems, newItem]);
             setIsModalOpen(false);
