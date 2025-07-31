@@ -3,6 +3,7 @@ import { Draggable, Droppable} from "@hello-pangea/dnd";
 import ListItem from "./ListItem";
 
 import '../assets/styles/listView.css'; // Import styles for ListView
+import { deleteItem } from "../backend/store";
 
 interface ListViewProps {
   items: CatalogItem[];
@@ -25,6 +26,7 @@ const ListView: React.FC<ListViewProps> = ({ items, setItems, showError }) => {
       // Wait for animation to complete before updating state
       setTimeout(() => {
         try {
+          deleteItem(id);
           setItems((prevItems) => prevItems.filter(item => item.id !== id));
         } catch (error) {
           console.error("Error deleting item:", error);
@@ -34,6 +36,7 @@ const ListView: React.FC<ListViewProps> = ({ items, setItems, showError }) => {
     } else {
       // If element not found, just update state immediately
       try {
+        deleteItem(id);
         setItems((prevItems) => prevItems.filter(item => item.id !== id));
       } catch (error) {
         console.error("Error deleting item:", error);

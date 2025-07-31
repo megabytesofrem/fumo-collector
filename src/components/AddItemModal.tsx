@@ -1,4 +1,4 @@
-import { useMemo, useState, version } from "react";
+import { useMemo, useState } from "react";
 import type { CatalogItem } from "../model/catalogItem";
 
 import catalog from "../model/fumo_catalog.json"; // Import the catalog data

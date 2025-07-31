@@ -1,11 +1,12 @@
 import "../assets/styles/app.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
 import { type CatalogItem } from "../model/catalogItem";
 import Header from "./Header";
 import ListView from "./ListView";
 import AddItemModal from "./AddItemModal";
+import { getItems, insertItem } from "../backend/store";
 
 // Dummy items
 const dummyItems: CatalogItem[] = [
@@ -32,8 +33,19 @@ const dummyItems: CatalogItem[] = [
 function App() {
 
   // In memory item state - will be replaced with localStorage later on
-  const [items, setItems] = useState<CatalogItem[]>(dummyItems);
+  const [items, setItems] = useState<CatalogItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Load items from the store
+  useEffect(() => {
+    try {
+      // Attempt to load items from localStorage
+      const storedItems = getItems();
+      setItems(storedItems);
+    } catch (error) {
+      console.error("Failed to load items from store:", error);
+    }
+  }, []);
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -63,14 +75,22 @@ function App() {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={(data) => {
-            const newItem: CatalogItem = {
-              id: `${data.name.toLowerCase().replace(/\s+/g, "_")}_${data.version}`,
-              name: data.name,
-              version: data.version,
-              imageUrl: data.imageUrl ?? "https://fumo.website/img/001.jpg", // Placeholder image
-            };
-            setItems((prevItems) => [...prevItems, newItem]);
-            setIsModalOpen(false);
+
+            try {
+              const newItem: CatalogItem = {
+                id: `${data.name.toLowerCase().replace(/\s+/g, "_")}_${data.version}`,
+                name: data.name,
+                version: data.version,
+                imageUrl: data.imageUrl ?? "https://fumo.website/img/001.jpg", // Placeholder image
+              };
+
+              insertItem(newItem);
+              setItems((prevItems) => [...prevItems, newItem]);
+              setIsModalOpen(false);
+            } catch (error) {
+              console.error("Failed to insert item:", error);
+              // Optionally show an error message to the user
+            }
           }}
           title="Add New Item"
           existingItems={items}

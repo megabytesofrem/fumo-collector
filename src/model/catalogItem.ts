@@ -4,4 +4,5 @@ export type CatalogItem = {
   name: string;
   version: string;
   imageUrl: string;
+  dateAcquired?: string; // Optional field for when the item was acquired
 }
